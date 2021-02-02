@@ -4,9 +4,9 @@
 <mapper namespace="com.spring.sboard.user.UserMapper">
 	<insert id="insUser">
 		INSERT INTO t_user
-		( user_id, user_pw, salt, nm, gender, phone )
+		( user_id, user_pw, salt, nm, gender, phone, email )
 		VALUES
-		( #{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{phone} )
+		( #{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{phone}, #{email} )
 	</insert> <!--  회원가입 -->
 	
 	<select id="selUser" resultType="UserEntity">

@@ -29,4 +29,15 @@ public class SecurityUtils {
 	public static String hashPassword(String pw, String salt) {
 		return BCrypt.hashpw(pw, salt);
 	}
+	
+	// 인증을 위한 랜덤숫자코드 생성
+	public static String getPrivateCode(int len) {
+		String str = "";
+		
+		for (int i = 0; i < len; i++) {
+			str += (int)Math.random() * 10;
+		}
+		
+		return str;
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.sboard.common.SecurityUtils;
 import com.spring.sboard.model.UserEntity;
 
 @Controller
@@ -37,12 +38,22 @@ public class UserController {
 		return "redirect:/user/login";
 	}
 	
-	@RequestMapping("/join") // 회원가입 페이지 표시
+	@GetMapping("/join") // 회원가입 페이지 표시
 	public void join() {}
 	
 	@PostMapping("/join") // 회원가입
 	public String join(UserEntity param) {	 
 		service.insUser(param);
 		return "redirect:/user/login";
+	}
+	
+	@GetMapping("/findPw") // 비밀번호찾기 페이지 표시
+	public void findPw() {}
+	
+	@GetMapping("/findPwProc") // 비밀번호찾기
+	public String findPwProc(String user_id) {
+		System.out.println("userId = " + user_id);
+				
+		return "user/findPw";
 	}
 }

@@ -9,7 +9,8 @@
 			<div><input type="submit" value="LOGIN"></div>
 		</form>
 		<div style="color:red;">${msg}</div>
-		<a href="/user/join">join</a>
+		<a href="/user/join">회원가입</a> 
+		<a href="/user/findPw">비밀번호찾기</a>
 	</div>		
 </div>
 <div>
