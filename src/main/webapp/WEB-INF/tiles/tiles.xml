@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+<!--기본적인 defiinition 태그를 하나 만들어둔다. -->     
+    <definition name="basic-template" template="/WEB-INF/views/temp/tiles_temp.jsp" preparer="menuPreparer">    	
+        <put-attribute name="header" value="/WEB-INF/views/temp/header.jsp" />  
+														<!--  MenuPreparer클래스의 빈 등록이름 -->      
+    </definition>
+     
+<!--defiinition 을 상속받아 여러 타일즈를 만들수 있다. -->
+    <definition name="*/*" extends="basic-template">
+        <put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
+        <put-attribute name="categoryJS" value="{1}" />
+        <put-attribute name="categoryCSS" value="{1}" />
+    </definition>
+     
+</tiles-definitions>
