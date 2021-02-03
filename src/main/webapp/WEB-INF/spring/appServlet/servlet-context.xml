@@ -71,4 +71,12 @@
 	<!--  mybatis 연동설정 -->
 	<mybatis-spring:scan base-package="com.spring.sboard"/>
 	
+	<beans:bean class="com.spring.sboard.common.MailUtils">
+		<beans:property name="userId" value="dltnwls7894" /> 
+		<beans:property name="userPw" value="wls120239" />
+		<beans:property name="host" value="smtp.naver.com" />
+		<beans:property name="port" value="587 "/>
+		<beans:property name="fromEmail" value="dltnwls7894@naver.com" /> 
+	</beans:bean>
+
 </beans:beans>

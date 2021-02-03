@@ -1,0 +1,23 @@
+package com.spring.sboard.model;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("AuthEntity")
+public class AuthEntity {
+
+	private String user_id;
+	private String cd;
+	
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getCd() {
+		return cd;
+	}
+	public void setCd(String cd) {
+		this.cd = cd;
+	}
+}

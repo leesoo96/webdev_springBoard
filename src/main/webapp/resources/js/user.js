@@ -1,9 +1,9 @@
-//기본 이미지 사용 (프로필 이미지 삭제)
+//기본 이미지 사용 
 function delProfileImg() {
 	axios.get('/user/delProfileImg.korea').then(function(res) {
 		var basicProfileImg = '/res/img/basic_profile.jpg';22		
 		if(res != null && res.status == 200) {
-			if(res.data.result == 1) { //프로필 이미지 삭제가 완료 됨!!
+			if(res.data.result == 1) { // 프로필 이미지 삭제 완료
 				var img = document.querySelector('#profileImg');
 				var container = document.querySelector('#delProfileBtnContainer');
 				
@@ -35,11 +35,11 @@ function chkPw() {
 
 // 인증메일받기
 function clkFindPwBtn () {
-	var userId = document.querySelector('#findPw_userId').value
+	var user_id = document.querySelector('#findPwUserId').value
 
 	ajax()
 	
-	function ajax() {
+	function ajax () {
 		fetch(`/user/findPwProc?user_id=${user_id}`)
 	}
 }

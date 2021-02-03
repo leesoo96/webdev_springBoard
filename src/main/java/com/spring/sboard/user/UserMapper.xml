@@ -11,7 +11,7 @@
 	
 	<select id="selUser" resultType="UserEntity">
 		SELECT
-			i_user, nm <!-- 세션에 필요한 값이기때문에 꼭 가져오도록 함 -->
+			i_user, nm, email <!-- 세션에 필요한 값이기때문에 꼭 가져오도록 함 -->
 			<if test="i_user > 0">
 				, user_id, phone, gender, profile_img
 			</if>
@@ -29,4 +29,23 @@
 			</if>
 		</where>
 	</select> <!--  로그인 -->
+	
+	<!-- 비밀번호찾기 //////////////////////////////// -->
+	<insert id="insAuth">
+		INSERT INTO t_auth
+		(user_id, cd)
+		VALUES
+		(#{user_id}, #{cd})
+	</insert>
+	
+	<select id="selAuth" resultType="AuthEntity">
+		SELECT cd
+		FROM t_auth
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<delete id="delAuth">
+		DELETE FROM t_auth
+		WHERE user_id = #{user_id}
+	</delete>
 </mapper>  

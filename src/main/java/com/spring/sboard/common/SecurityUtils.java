@@ -35,7 +35,7 @@ public class SecurityUtils {
 		String str = "";
 		
 		for (int i = 0; i < len; i++) {
-			str += (int)Math.random() * 10;
+			str += (int)(Math.random() * 10);
 		}
 		
 		return str;

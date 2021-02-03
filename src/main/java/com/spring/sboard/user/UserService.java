@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.sboard.common.Const;
+import com.spring.sboard.common.MailUtils;
 import com.spring.sboard.common.SecurityUtils;
+import com.spring.sboard.model.AuthEntity;
 import com.spring.sboard.model.UserEntity;
 
 // dao, service는 세트
@@ -16,6 +18,9 @@ public class UserService {
 //	new()없이 객체 접근 가능
 	@Autowired
 	private UserMapper mapper;
+	
+	@Autowired
+	private MailUtils mailUtils;
 		
 //	 로그인
 	public int login(UserEntity param, HttpSession hs) {
@@ -50,11 +55,28 @@ public class UserService {
 		return mapper.insUser(param);
 	}
 	
-//	비밀번호찾기
-	public int findPwProc(String user_id) {
-		String code = SecurityUtils.getPrivateCode(5);
+//	비밀번호찾기 1 - 성공 2 - 아이디확인 0 - 메일전송실패
+	public int findPwProc(AuthEntity p) {
+//		이메일 주소 얻어오기
+		UserEntity param = new UserEntity();
+		param.setUser_id(p.getUser_id());
+		UserEntity vo = mapper.selUser(param);
+		if(vo == null) {
+			return 2; // 아이디 확인 
+		}
+		
+		String email = vo.getEmail();
+		
+		String code = SecurityUtils.getPrivateCode(10);
 		System.out.println("code = " + code);
 		
-		return 0;
+		mapper.delAuth(p); // 코드가 입력되어있을 경우를 대비해 일단 삭제
+		
+		p.setCd(code);
+		mapper.insAuth(p);
+		
+		System.out.println("email - "  + email);
+		
+		return mailUtils.sendFindPwEmail(email, code);
 	}
 }
