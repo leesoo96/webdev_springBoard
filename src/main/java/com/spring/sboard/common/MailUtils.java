@@ -53,6 +53,7 @@ public class MailUtils {
 			
 			message.setContent(multipart);			
 			Transport.send(message);			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			return 0;
