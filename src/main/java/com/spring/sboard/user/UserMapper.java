@@ -2,6 +2,7 @@ package com.spring.sboard.user;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.spring.sboard.model.AuthDTO;
 import com.spring.sboard.model.AuthEntity;
 import com.spring.sboard.model.UserEntity;
 
@@ -13,6 +14,9 @@ public interface UserMapper {
 	UserEntity selUser(UserEntity param);
 	
 	int insUser(UserEntity param);
+	
+//	비밀번호 변경 
+	int updUser(UserEntity p);
 	
 //	비밀번호찾기/////////////////////////////////
 	int insAuth(AuthEntity p);

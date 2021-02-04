@@ -22,7 +22,7 @@ public class SecurityUtils {
 		return loginUser == null ? -1 : loginUser.getI_user();
 	}
 	
-	public static String gensalt() {
+	public static String getSalt() {
 		return BCrypt.gensalt();
 	}
 

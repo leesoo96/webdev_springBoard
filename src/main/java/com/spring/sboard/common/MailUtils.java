@@ -19,10 +19,22 @@ public class MailUtils {
 	private String port;
 	private String fromEmail;
 	
-	public int sendFindPwEmail(final String toEmail, final String code) {
-		String subject = "sboard 비밀번호 찾기 인증 이메일 입니다.";
-		String body = String.format("<div>안녕하세요 코드는 %s입니다.</div>", code);		
-		return sendMail(toEmail, subject, body);
+	public int sendFindPwEmail(final String toEmail, final String user_Id, final String code) {
+		String subject = "spring_비밀번호 찾기 인증 이메일 입니다.";
+		
+//		자기자신의 주소값을 리턴하기때문에 chain처럼 할 수 있는 것!
+		StringBuilder sb = new StringBuilder("<div>")
+							.append("<a href=\"http://localhost:8090/user/findPwAuth?cd=")
+							.append(code)
+							.append("&user_id=")
+							.append(user_Id)
+							.append("\" target=\"_blank\">비밀번호 변경하기</a>")
+							.append("</div>");
+		
+//		String.format으로 해도 된다
+//		String body = String.format("<div>인증코드 : %s</div>", code);	
+		
+		return sendMail(toEmail, subject, sb.toString());
 	}
 	
 	public int sendMail(final String toEmail, final String subject, final String body) {

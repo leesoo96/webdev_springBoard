@@ -1,14 +1,21 @@
 package com.spring.sboard.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.sboard.common.Const;
 import com.spring.sboard.common.SecurityUtils;
+import com.spring.sboard.model.AuthDTO;
 import com.spring.sboard.model.AuthEntity;
 import com.spring.sboard.model.UserEntity;
 
@@ -57,5 +64,17 @@ public class UserController {
 		
 		service.findPwProc(p);		
 		return "user/findPw";
+	}
+	
+	@GetMapping("/findPwAuth")
+	public void findPwAuth() {} // 비밀번호 인증 코드 입력 페이지 표시
+	
+	@ResponseBody
+	@PostMapping("/findPwAuth") // 비밀번호 변경
+	public Map findPwAuth(@RequestBody AuthDTO p) {
+		Map<String, Object> returnVal = new HashMap();
+		returnVal.put(Const.KEY_RESULT, service.findPwAuthProc(p));
+		
+		return returnVal;
 	}
 }

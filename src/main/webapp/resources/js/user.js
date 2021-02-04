@@ -43,3 +43,56 @@ function clkFindPwBtn () {
 		fetch(`/user/findPwProc?user_id=${user_id}`)
 	}
 }
+
+// 비밀번호 변경
+var findPwAuthFrm = document.querySelector('#findPwAuthFrm')
+if(findPwAuthFrm) {
+	var btnSendElem = findPwAuthFrm.btnSend
+	var userPw = findPwAuthFrm.user_pw
+	var userChkPw = findPwAuthFrm.chk_user_pw
+
+	var user_idValue = findPwAuthFrm.user_id.value
+	var cdValue = findPwAuthFrm.cd.value	
+//	var user_PwValue = findPwAuthFrm.user_pw.value -> 빈 값을 사용하겠다는 의미가 된다
+	
+	btnSendElem.onclick = function() {
+		if(userPw.value !== userChkPw.value) {
+			alert('비밀번호가 다릅니다!')
+			return
+		}
+		ajax()
+	}
+	
+	function ajax() { // 버튼을 클릭하는 순간 실행된다
+		var param = {
+				user_id : user_idValue,
+				cd: cdValue, 
+				user_pw : userPw.value, // 외부에 선언되면 무조건 빈 값이 되므로 
+													// 여기에 선언해준다 
+		}
+		
+		fetch('/user/findPwAuth', {
+			method: 'POST',
+			headers: {
+				'Content-type' : 'application/json'
+			},
+			body : JSON.stringify(param)
+		})
+		.then(res => res.json)
+		.then(myJson => {
+			proc(myJson)
+		})
+	}
+	
+	function proc(res) {
+		switch (res.result) {
+			case 0 : 
+				alert('비밀번호 변경 실패!')
+				return
+			case 1 : 
+				alert('비밀번호 변경 완료!')
+				location.href = '/user/login'
+				return 
+		}
+	}
+}
