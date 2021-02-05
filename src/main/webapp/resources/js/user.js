@@ -35,12 +35,56 @@ function chkPw() {
 
 // 인증메일받기
 function clkFindPwBtn () {
+	
 	var user_id = document.querySelector('#findPwUserId').value
 
 	ajax()
 	
 	function ajax () {
 		fetch(`/user/findPwProc?user_id=${user_id}`)
+		.then(res => res.json())
+		.then(res => {
+			console.log(res.result)
+			if(res.result === 1) {
+				// 타이머 시작
+				startTimer()
+			} else {
+				alert('인증메일 발송 실패!')
+			}
+		})
+	}
+	
+	// 타이머 함수
+	function startTimer() {
+		var countDownTime = document.querySelector('#countDownTime')
+		var totalSec = 300
+		
+		var interval = setInterval(function () {
+			var min = parseInt(totalSec / 60)
+			var sec = totalSec - (min * 60)
+			var result = `남은 시간  ${create2Seat(min)} : ${create2Seat(sec)}`
+			
+			countDownTime.innerText = result
+			
+			if(totalSec === 0) {
+				clearInterval(interval)
+			}
+			totalSec-- 
+		}, 1000)
+	}
+	
+	// 2자리 숫자 만들기
+	function create2Seat(p) {
+		p = Number(p).toString()
+		if(p.length == 1) {
+			p = '0' + p
+		}
+		return p
+
+//		var val = '0' + p
+//		return val.substr(val.length - 2, 2)
+		
+//		return p.length == 1 ? `0${p}` : `${p}`
 	}
 }
 
@@ -78,7 +122,7 @@ if(findPwAuthFrm) {
 			},
 			body : JSON.stringify(param)
 		})
-		.then(res => res.json)
+		.then(res => res.json())
 		.then(myJson => {
 			proc(myJson)
 		})
@@ -90,8 +134,11 @@ if(findPwAuthFrm) {
 				alert('비밀번호 변경 실패!')
 				return
 			case 1 : 
-				alert('비밀번호 변경 완료!')
+				alert('비밀번호 변경 완료!') // 화면 로딩 안됨 - 확인필요
 				location.href = '/user/login'
+				return 
+			case 2 :
+				alert('인증 제한 시간이 초과되었습니다!') // 확인필요
 				return 
 		}
 	}

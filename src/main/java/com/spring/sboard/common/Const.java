@@ -12,4 +12,7 @@ public class Const {
 	public static final String KEY_LIST = "list";
 	public static final String KEY_DATA = "data";
 	public static final String KEY_RESULT = "result";
+	
+	// 인증 제한 시간 
+	public static final int AUTH_REST_SEC = 300;
 }
