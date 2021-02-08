@@ -27,7 +27,15 @@
 		ON A.i_board = C.i_board
 		WHERE A.typ = #{typ}
 		ORDER BY seq DESC
+		
+		<!-- sql문 미완-->
 	</select> <!--  각 게시판 글목록 읽어오기 -->
+	
+	<select id="selMaxPageing" resultType="_int">
+		SELECT CEIL(COUNT(i_board) / #{recordPageCnt}) 
+		FROM t_board
+		WHERE typ = #{typ}
+	</select> <!-- 페이징 -->
 	
 	<select id="selBoard" resultType="BoardDomain">
 		SELECT A.i_board, A.typ, A.seq, A.title, A.ctnt, A.r_dt, A.hits

@@ -10,6 +10,7 @@ import com.spring.sboard.model.BoardCmtEntity;
 import com.spring.sboard.model.BoardDTO;
 import com.spring.sboard.model.BoardDomain;
 import com.spring.sboard.model.BoardEntity;
+import com.spring.sboard.model.BoardParentDomain;
 
 @Service
 public class BoardService {
@@ -18,11 +19,26 @@ public class BoardService {
 	private BoardMapper mapper;
 
 //	글목록 읽어오기
-	public List<BoardDomain> selBoardList(BoardDTO p) {
+	public BoardParentDomain selBoardList(BoardDTO p) {
 		if(p.getTyp() == 0) {
 			p.setTyp(1);
 		}
-		return mapper.selBoardList(p);
+		
+		if(p.getRecordPageCnt() == 0) {
+			p.setRecordPageCnt(5);
+		}
+		
+		if(p.getPage() == 0) {
+			p.setPage(1);
+		}
+		
+		BoardParentDomain parentDomain = new BoardParentDomain();
+		parentDomain.setMaxPageNum(mapper.selMaxPageing(p));
+		parentDomain.setList(mapper.selBoardList(p));
+		parentDomain.setPage(p.getPage());
+		parentDomain.setRecordPage(p.getRecordPageCnt());
+		
+		return parentDomain;
 	}
 	
 //	글쓰기

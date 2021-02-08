@@ -36,7 +36,7 @@ public class BoardController {
 	
 	@GetMapping("/list") // 글목록 불러오기
 	public void list(Model model, BoardDTO p) {
-		model.addAttribute(Const.KEY_LIST, service.selBoardList(p));
+		model.addAttribute(Const.KEY_DATA , service.selBoardList(p));
 	}
 	
 	@GetMapping("/reg") // 글쓰기 페이지 표시
