@@ -17,7 +17,7 @@ public interface BoardMapper {
 	List<BoardDomain> selBoardList(BoardDTO p);
 
 //	페이징
-	int selMaxPageing(BoardDTO p);
+	int selMaxPageNum(BoardDTO p);
 	
 //	글쓰기
 	int insBoard(BoardEntity p);

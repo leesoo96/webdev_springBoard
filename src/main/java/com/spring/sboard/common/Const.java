@@ -14,5 +14,9 @@ public class Const {
 	public static final String KEY_RESULT = "result";
 	
 	// 인증 제한 시간 
-	public static final int AUTH_REST_SEC = 300;
+	public static final int AUTH_REST_SEC = 300; // 5분
+	
+	// 페이징될때의 ... <- 개수
+	public static final int PAGE_SIDE_NUM = 3;
+	
 }
