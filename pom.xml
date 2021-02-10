@@ -198,6 +198,14 @@
     		<version>1.5.0-b01</version>
 		</dependency>
 		
+		<!-- 다중파일업로드를 위한 lib 설정 -->
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+    		<groupId>commons-fileupload</groupId>
+    		<artifactId>commons-fileupload</artifactId>
+    		<version>1.4</version>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>

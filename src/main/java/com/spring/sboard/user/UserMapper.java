@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.spring.sboard.model.AuthDTO;
 import com.spring.sboard.model.AuthEntity;
 import com.spring.sboard.model.UserEntity;
+import com.spring.sboard.model.UserImgEntity;
 
 @Mapper
 public interface UserMapper {
@@ -24,4 +25,7 @@ public interface UserMapper {
 	AuthEntity selAuth(AuthEntity p);
 	
 	int delAuth(AuthEntity p);
+	
+//	프로필 이미지 변경
+	int insUserImg(UserImgEntity p);
 }

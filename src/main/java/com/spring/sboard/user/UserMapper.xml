@@ -62,6 +62,7 @@
 			<if test="user_pw != null and user_pw != ''">
 				user_pw = #{user_pw},
 			</if>
+			<if test="profile_img != null and profile_img != ''">profile_img = ${profile_img},</if>
 			m_dt = now()
 		</set>
 		
@@ -74,4 +75,11 @@
 			</if>
 		</where>
 	</update>
+	
+	<insert id="insUserImg">
+		INSERT INTO t_user_img
+		(i_user, img)
+		VALUES
+		(#{i_user}, #{img})
+	</insert>
 </mapper>  

@@ -1,9 +1,14 @@
 package com.spring.sboard.user;
 
+import java.io.File;
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.sboard.common.Const;
 import com.spring.sboard.common.MailUtils;
@@ -11,6 +16,7 @@ import com.spring.sboard.common.SecurityUtils;
 import com.spring.sboard.model.AuthDTO;
 import com.spring.sboard.model.AuthEntity;
 import com.spring.sboard.model.UserEntity;
+import com.spring.sboard.model.UserImgEntity;
 
 // dao, service는 세트
 @Service
@@ -23,9 +29,13 @@ public class UserService {
 	@Autowired
 	private MailUtils mailUtils;
 		
+	public UserEntity selUser(UserEntity param) {
+		return mapper.selUser(param);
+	}
+	
 //	 로그인
 	public int login(UserEntity param, HttpSession hs) {
-		UserEntity dbData = mapper.selUser(param);
+		UserEntity dbData = selUser(param);
 		if(dbData == null) { 
 			return 2; // 아이디 없음
 		}
@@ -61,7 +71,7 @@ public class UserService {
 //		이메일 주소 얻어오기
 		UserEntity param = new UserEntity();
 		param.setUser_id(p.getUser_id());
-		UserEntity vo = mapper.selUser(param);
+		UserEntity vo = selUser(param);
 		if(vo == null) {
 			return 2; // 아이디 확인 
 		}
@@ -101,5 +111,46 @@ public class UserService {
 		ue.setSalt(salt);
 		
 		return mapper.updUser(ue);
+	}
+	
+//	이미지 업로드
+	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {
+		int i_user = SecurityUtils.getLoingUserPk(hs);
+		
+//																    톰캣이 구동되는 위치를 잡기편하다
+		String basePath = hs.getServletContext().getRealPath("/resources/img/user" + i_user + "/");
+		System.out.println("basePath = "+basePath);
+		
+		try {
+			for (int i = 0; i < imgs.length; i++) {
+				MultipartFile files = imgs[i];
+//										  파일이름이 중복되는 것을 막는다
+				String fileName = UUID.randomUUID().toString();
+				String extension = FilenameUtils.getExtension(files.getOriginalFilename());
+				fileName += "." + extension;
+				
+				File file = new File(basePath + fileName);
+				files.transferTo(file);
+				
+				if(i == 0) { // 이미지 업데이트
+					UserEntity p = new UserEntity();
+					p.setI_user(i_user);
+					p.setProfile_img(fileName);
+					
+					mapper.updUser(p);
+				}
+				
+				UserImgEntity uie = new UserImgEntity();
+				uie.setI_user(i_user);
+				uie.setImg(fileName);
+				
+				mapper.insUserImg(uie);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		return 1;
 	}
 }

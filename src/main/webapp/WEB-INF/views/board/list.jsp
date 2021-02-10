@@ -19,7 +19,7 @@
 				<option value="3" ${param.searchType == 3 ? 'selected' : '' }>제목+내용</option>
 				<option value="4" ${param.searchType == 4 ? 'selected' : '' }>작성자</option>
 			</select>
-			<input type="search" id="searchText" value="${param.searchText }">
+			<input type="search" id="searchText" value="${param.searchText }" onkeyup="onSearch(event)">
 			<input type="button" value="검색" onclick="getBoardList(1)">
 		</span>
 		<form id="listFrm" action="/board/list" method="get">	
@@ -50,15 +50,22 @@
 				<td>작성자</td>
 			</tr>		
 			<c:forEach items="${requestScope.data.list}" var="item">
-				<tr class="pointer" onclick="clkArticle(${item.i_board})">
+				<tr class="pointer" onclick="clkArticle(${item.i_board}, ${param.searchType },'${param.searchText }')">
 					<td>${item.seq}</td>
-					<td>					
-						${
-							fn:length(item.title) > 12 
-							? fn:substring(item.title, 0, 11) += '...' 
-							: item.title
-						}
-					</td> 
+					<td>
+					  <c:choose>
+						<c:when test="${(param.searchType == 1 || param.searchType == 3) && param.searchText != ''}">
+							${fn:replace(item.title, param.searchText, '<mark>' += param.searchText += '</mark>' )}
+						</c:when>
+						<c:otherwise>
+							${
+								fn:length(item.title) > 12 
+								? fn:substring(item.title, 0, 11) += '...' 
+								: item.title
+							} 
+						</c:otherwise>
+						</c:choose>
+					</td>
 					<td>${item.hits}</td>
 					<td>${item.favorite_cnt}</td>
 					<td>${item.r_dt}</td>
@@ -73,7 +80,16 @@
 								<img id="profileImg" src="/res/img/${item.i_user}/${item.profile_img}">
 							</div>
 						</c:if>
-						<span class="profile-td-nm">${item.writer_nm}</span>
+						<span class="profile-td-nm">
+							<c:choose>
+								<c:when test="${param.searchType == 4 && param.searchText != ''}">
+									${fn:replace(item.writer_nm, param.searchText, '<mark>' += param.searchText += '</mark>' )}
+								</c:when>
+								<c:otherwise>
+									${item.writer_nm}
+								</c:otherwise>
+							</c:choose>
+						</span>
 					</td>
 				</tr>
 			</c:forEach>
@@ -98,4 +114,4 @@
 	</div>
 </div>    
 
-<script src="/res/js/board/list.js"></script>
+<script src="/res/js/board/list.js?ver=1"></script>
