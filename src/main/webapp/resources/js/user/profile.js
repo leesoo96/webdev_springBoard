@@ -91,6 +91,7 @@ function profileImgCarouselProc(myJson) {
 	var splideList = document.querySelector('.splide__list')
 	myJson.forEach(function (item) {
 		var div = document.createElement('div')
+		div.classList.add('splide__slide')
 		var img = document.createElement('img')
 		
 		img.src = `/res/img/user/${item.i_user}/${item.img}`
