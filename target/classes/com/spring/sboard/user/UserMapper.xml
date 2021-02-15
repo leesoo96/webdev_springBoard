@@ -52,6 +52,12 @@
 		WHERE user_id = #{user_id}
 	</delete>
 	
+	<select id="selUserImgList" resultType="UserImgEntity">
+		SELECT *
+		FROM t_user_img
+		WHERE i_user = #{i_user}
+	</select>
+	
 	<!-- 비밀번호 변경 -->
 	<update id="updUser">
 		UPDATE t_user

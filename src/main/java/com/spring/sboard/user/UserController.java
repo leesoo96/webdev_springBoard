@@ -1,6 +1,7 @@
 package com.spring.sboard.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import com.spring.sboard.common.SecurityUtils;
 import com.spring.sboard.model.AuthDTO;
 import com.spring.sboard.model.AuthEntity;
 import com.spring.sboard.model.UserEntity;
+import com.spring.sboard.model.UserImgEntity;
 
 @Controller
 @RequestMapping("/user")
@@ -96,5 +98,10 @@ public class UserController {
 		System.out.println("imgs = " + imgs.length);
 		return service.profileUpload(imgs, hs);
 	}
+	
+	@ResponseBody
+	@GetMapping("/profileImgList")
+	public List<UserImgEntity> profileImgList(UserEntity p) {
+		return service.selUserImgList(p);
+	}
 }
-// 프로필이미지 미완

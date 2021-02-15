@@ -1,6 +1,7 @@
 package com.spring.sboard.user;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.sboard.common.Const;
+import com.spring.sboard.common.FileUtils;
 import com.spring.sboard.common.MailUtils;
 import com.spring.sboard.common.SecurityUtils;
 import com.spring.sboard.model.AuthDTO;
@@ -28,7 +30,13 @@ public class UserService {
 	
 	@Autowired
 	private MailUtils mailUtils;
-		
+	
+	@Autowired
+	private FileUtils fileUtils;
+	
+	@Autowired
+	private HttpSession hs;
+	
 	public UserEntity selUser(UserEntity param) {
 		return mapper.selUser(param);
 	}
@@ -117,20 +125,33 @@ public class UserService {
 	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {
 		int i_user = SecurityUtils.getLoingUserPk(hs);
 		
-//																    톰캣이 구동되는 위치를 잡기편하다
-		String basePath = hs.getServletContext().getRealPath("/resources/img/user" + i_user + "/");
+//		로그인이 안되어있거나 업로드한 이미지가 없을 경우
+		if(i_user < 1 || imgs.length == 0) {
+			return 0;
+		}
+		
+/*																    톰캣이 구동되는 위치를 잡기편하다
+		String basePath = fileUtils.getBasePath("/resources/img/user" + i_user);
 		System.out.println("basePath = "+basePath);
 		
+		fileUtils.makeDir(basePath); */
+		
+		String folder = "/resources/img/user" + i_user;
 		try {
 			for (int i = 0; i < imgs.length; i++) {
-				MultipartFile files = imgs[i];
-//										  파일이름이 중복되는 것을 막는다
+				MultipartFile file = imgs[i];
+/*										  파일이름이 중복되는 것을 막는다
 				String fileName = UUID.randomUUID().toString();
-				String extension = FilenameUtils.getExtension(files.getOriginalFilename());
-				fileName += "." + extension;
+				String extension = FilenameUtils.getExtension(files.getOriginalFilename()); 
+				String fileName = fileUtils.getRandomFileNm();
 				
-				File file = new File(basePath + fileName);
-				files.transferTo(file);
+				File file = new File(basePath, fileName);
+				files.transferTo(file); */
+				
+				String fileName = fileUtils.saveFile(file, folder);
+				if(fileName == null) {
+					return 0;
+				}
 				
 				if(i == 0) { // 이미지 업데이트
 					UserEntity p = new UserEntity();
@@ -152,5 +173,12 @@ public class UserService {
 		}
 		
 		return 1;
+	}
+	
+	public List<UserImgEntity> selUserImgList(UserEntity p) {
+		int i_user = SecurityUtils.getLoingUserPk(hs);
+		p.setI_user(i_user);
+		
+		return mapper.selUserImgList(p);
 	}
 }

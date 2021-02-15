@@ -1,5 +1,7 @@
 package com.spring.sboard.user;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.spring.sboard.model.AuthDTO;
@@ -28,4 +30,6 @@ public interface UserMapper {
 	
 //	프로필 이미지 변경
 	int insUserImg(UserImgEntity p);
+
+	List<UserImgEntity> selUserImgList(UserEntity p);
 }

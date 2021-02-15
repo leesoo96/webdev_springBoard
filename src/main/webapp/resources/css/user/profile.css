@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.splide {
+	height: 50%;
+	color: #fff;
+}
+
+.splide > .splide__track > .splide__list{
+	height: 70%;
+}
