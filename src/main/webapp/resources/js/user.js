@@ -1,4 +1,4 @@
-//기본 이미지 사용 
+/*기본 이미지 사용 
 function delProfileImg() {
 	axios.get('/user/delProfileImg.korea').then(function(res) {
 		var basicProfileImg = '/res/img/basic_profile.jpg';22		
@@ -15,6 +15,7 @@ function delProfileImg() {
 		console.err('err 발생 : ' + err);
 	})
 }
+*/
 
 function chkPw() {
 	var frm = document.querySelector('#frm');

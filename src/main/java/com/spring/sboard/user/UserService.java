@@ -175,10 +175,24 @@ public class UserService {
 		return 1;
 	}
 	
+//	프로필 이미지 가져오기
 	public List<UserImgEntity> selUserImgList(UserEntity p) {
 		int i_user = SecurityUtils.getLoingUserPk(hs);
 		p.setI_user(i_user);
 		
 		return mapper.selUserImgList(p);
+	}
+	
+//	가져온 프로필 이미지 삭제
+	public int delProfileImg(UserImgEntity p) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		
+		int result = mapper.delProfileImg(p);
+		if(result ==1) { // 이미지 삭제
+			String path = "/img/user/" + p.getI_user() + "/" + p.getI_img();
+			fileUtils.delFile(path);
+		}
+		
+		return result;
 	}
 }

@@ -13,9 +13,10 @@ import com.spring.sboard.model.UserImgEntity;
 public interface UserMapper {
 // 유연성을 위해 인터페이스 생성
 	
-//	유저의 정보를 얻기위함
+//	로그인
 	UserEntity selUser(UserEntity param);
 	
+//	회원가입
 	int insUser(UserEntity param);
 	
 //	비밀번호 변경 
@@ -32,4 +33,6 @@ public interface UserMapper {
 	int insUserImg(UserImgEntity p);
 
 	List<UserImgEntity> selUserImgList(UserEntity p);
+	
+	int delProfileImg(UserImgEntity p);
 }

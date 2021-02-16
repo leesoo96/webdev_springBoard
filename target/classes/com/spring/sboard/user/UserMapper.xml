@@ -52,12 +52,6 @@
 		WHERE user_id = #{user_id}
 	</delete>
 	
-	<select id="selUserImgList" resultType="UserImgEntity">
-		SELECT *
-		FROM t_user_img
-		WHERE i_user = #{i_user}
-	</select>
-	
 	<!-- 비밀번호 변경 -->
 	<update id="updUser">
 		UPDATE t_user
@@ -82,10 +76,23 @@
 		</where>
 	</update>
 	
+	<!-- 프로필 이미지 변경-->
+	<select id="selUserImgList" resultType="UserImgEntity">
+		SELECT *
+		FROM t_user_img
+		WHERE i_user = #{i_user}
+	</select>
+	
 	<insert id="insUserImg">
 		INSERT INTO t_user_img
 		(i_user, img)
 		VALUES
 		(#{i_user}, #{img})
 	</insert>
+	
+	<delete id="delProfileImg">
+		DELETE FROM t_user_img
+		FROM i_img = #{i_img}
+		AND i_user = #{i_user}
+	</delete>
 </mapper>  
